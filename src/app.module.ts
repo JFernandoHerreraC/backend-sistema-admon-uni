@@ -5,6 +5,7 @@ import { EstudiantesModule } from './estudiantes/estudiantes.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { DocentesModule } from './docentes/docentes.module';
+import { AutenticacionModule } from './autenticacion/autenticacion.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DocentesModule } from './docentes/docentes.module';
     MongooseModule.forRoot(process.env.HOST_DATABASE),
     EstudiantesModule,
     DocentesModule,
+    AutenticacionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

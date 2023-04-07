@@ -5,9 +5,15 @@ import { Model } from 'mongoose';
 import { Estudiante } from 'src/schemas/estudiante.schema';
 import { CrearEstudianteDTO } from './dto/crear-estudiante.dto';
 import { ActualizarEstudianteDTO } from './dto/actualizar-estudiante.dto';
+import { AutenticacionService } from 'src/autenticacion/autenticacion.service';
+
 @Injectable()
 export class EstudiantesService {
-    constructor(@InjectModel(Estudiante.name) private estudianteModel: Model<Estudiante>) { }
+    constructor(
+        @InjectModel(Estudiante.name) private estudianteModel: Model<Estudiante>,
+        private autenticacionServicio: AutenticacionService
+
+    ) { }
 
     private generadorMatricular(): string {
         const matricula = uuid().substring(0, 9)
@@ -23,13 +29,18 @@ export class EstudiantesService {
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
         return estudianteEncontrado;
     }
-    
-    async crearEstudiante(estudiante: CrearEstudianteDTO): Promise<Estudiante> {
+
+    async crearEstudiante(estudiante: CrearEstudianteDTO): Promise<any> {
+        const matricula = this.generadorMatricular();
+        const { password } = estudiante;
+        const usuarioNuevo = await this.autenticacionServicio.crearUsuario({ matricula, password });
+        estudiante.usuario = usuarioNuevo;
+
         const estudianteNuevo = new this.estudianteModel(estudiante);
-        estudianteNuevo.matricula = this.generadorMatricular();
-        return estudianteNuevo.save();
+        estudianteNuevo.matricula = matricula;
+        return estudianteNuevo.save()
     }
-    
+
     async deleteEstudiante(matricula: string) {
         const estudianteEncontrado = await this.estudianteModel.findOne({ matricula }).exec();
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
