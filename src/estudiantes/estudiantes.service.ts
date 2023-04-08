@@ -30,7 +30,7 @@ export class EstudiantesService {
         return estudianteEncontrado;
     }
 
-    async crearEstudiante(estudiante: CrearEstudianteDTO): Promise<any> {
+    async crearEstudiante(estudiante: CrearEstudianteDTO): Promise<Estudiante> {
         const matricula = this.generadorMatricular();
         const { password } = estudiante;
         const usuarioNuevo = await this.autenticacionServicio.crearUsuario({ matricula, password });
@@ -41,7 +41,7 @@ export class EstudiantesService {
         return estudianteNuevo.save()
     }
 
-    async deleteEstudiante(matricula: string) {
+    async deleteEstudiante(matricula: string): Promise<void> {
         const estudianteEncontrado = await this.estudianteModel.findOne({ matricula }).exec();
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
         const id = estudianteEncontrado._id;
