@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { DocentesModule } from './docentes/docentes.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
+import { MateriasModule } from './materias/materias.module';
+import { CalificacionesModule } from './calificaciones/calificaciones.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
     EstudiantesModule,
     DocentesModule,
     AutenticacionModule,
+    MateriasModule,
+    CalificacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
