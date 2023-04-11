@@ -8,6 +8,7 @@ import { DocentesModule } from './docentes/docentes.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { MateriasModule } from './materias/materias.module';
 import { CalificacionesModule } from './calificaciones/calificaciones.module';
+import { CarrerasModule } from './carreras/carreras.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CalificacionesModule } from './calificaciones/calificaciones.module';
     AutenticacionModule,
     MateriasModule,
     CalificacionesModule,
+    CarrerasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
