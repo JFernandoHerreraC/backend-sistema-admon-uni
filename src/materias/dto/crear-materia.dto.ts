@@ -1,9 +1,9 @@
 export class CrearMateriaDTO {
-    matricula ?: string
+    matricula?: string
     nombre: string
     docente: string
     fecha_inicio: Date
     fecha_finalizacion: Date
-    carrera: string
-    estudiantes ?: [string]
+    carrera: Object
+    estudiantes?: [string]
 }

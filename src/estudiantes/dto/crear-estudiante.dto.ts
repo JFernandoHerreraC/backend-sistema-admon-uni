@@ -3,7 +3,7 @@ export class CrearEstudianteDTO {
     nombre: string
     apaterno: string
     amaterno?: string
-    carrera: string
+    carrera: Object
     usuario: Object
     password: string
 }

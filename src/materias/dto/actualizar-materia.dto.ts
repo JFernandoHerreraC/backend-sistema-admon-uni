@@ -3,6 +3,6 @@ export class ActualizarMateriaDTO {
     docente: string
     fecha_inicio: Date
     fecha_finalizacion: Date
-    carrera: string
-    estudiantes ?: [string]
+    carrera: Object
+    estudiantes?: [string]
 }

@@ -6,11 +6,13 @@ import { Estudiante } from 'src/schemas/estudiante.schema';
 import { CrearEstudianteDTO } from './dto/crear-estudiante.dto';
 import { ActualizarEstudianteDTO } from './dto/actualizar-estudiante.dto';
 import { AutenticacionService } from 'src/autenticacion/autenticacion.service';
+import { Carrera } from 'src/schemas/carrera.schema';
 
 @Injectable()
 export class EstudiantesService {
     constructor(
         @InjectModel(Estudiante.name) private estudianteModel: Model<Estudiante>,
+        @InjectModel (Carrera.name) private carreraModel: Model<Carrera>,
         private autenticacionServicio: AutenticacionService
 
     ) { }
@@ -23,12 +25,13 @@ export class EstudiantesService {
     async getEstudiantes(): Promise<Estudiante[]> {
         return await this.estudianteModel.find()
         .select('matricula nombre apaterno amaterno carrera')
+        .populate('carrera')
         .exec();
     }
 
     async getEstudiante(matricula: string): Promise<Estudiante> {
         const estudianteEncontrado = await this.estudianteModel.findOne({ matricula })
-        .populate('usuario', '-password')
+        .populate('usuario carrera', '-password')
         .exec();
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
         return estudianteEncontrado;
@@ -39,7 +42,9 @@ export class EstudiantesService {
         const { password } = estudiante;
         const usuarioNuevo = await this.autenticacionServicio.crearUsuario({ matricula, password });
         estudiante.usuario = usuarioNuevo;
-
+        const nombreCarrera = estudiante.carrera;
+        const carrera = await this.carreraModel.findOne({nombre: nombreCarrera});
+        estudiante.carrera = carrera;
         const estudianteNuevo = new this.estudianteModel(estudiante);
         estudianteNuevo.matricula = matricula;
         return estudianteNuevo.save()
@@ -56,6 +61,9 @@ export class EstudiantesService {
         const estudianteEncontrado = await this.estudianteModel.findOne({ matricula }).exec();
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
         const id = estudianteEncontrado._id;
+        const nombreCarrera = estudiante.carrera;
+        const carrera = await this.carreraModel.findOne({nombre: nombreCarrera});
+        estudiante.carrera = carrera;
         return this.estudianteModel.findByIdAndUpdate({ _id: id }, estudiante, { new: true });
     }
 }

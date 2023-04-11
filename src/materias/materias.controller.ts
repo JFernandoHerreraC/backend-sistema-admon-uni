@@ -19,7 +19,7 @@ export class MateriasController {
     }
 
     @Post()
-    crearMateria(@Body() materia: CrearMateriaDTO): Promise<void> {
+    crearMateria(@Body() materia: CrearMateriaDTO): Promise<Materia> {
         return this.materiaService.createMateria(materia);
     }
 
