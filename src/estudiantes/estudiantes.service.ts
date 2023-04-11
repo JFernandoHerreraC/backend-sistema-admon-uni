@@ -21,11 +21,15 @@ export class EstudiantesService {
     }
 
     async getEstudiantes(): Promise<Estudiante[]> {
-        return this.estudianteModel.find().exec();
+        return await this.estudianteModel.find()
+        .select('matricula nombre apaterno amaterno carrera')
+        .exec();
     }
 
     async getEstudiante(matricula: string): Promise<Estudiante> {
-        const estudianteEncontrado = await this.estudianteModel.findOne({ matricula }).exec();
+        const estudianteEncontrado = await this.estudianteModel.findOne({ matricula })
+        .populate('usuario', '-password')
+        .exec();
         if (!estudianteEncontrado) throw new NotFoundException('Estudiante no encontrado');
         return estudianteEncontrado;
     }

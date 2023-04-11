@@ -20,11 +20,15 @@ export class DocentesService {
     }
 
     async getDocentes(): Promise<Docente[]> {
-        return this.docenteModel.find().exec();
+        return this.docenteModel.find()
+        .populate('usuario')
+        .exec();
     }
 
     async getDocente(matricula: string): Promise<Docente> {
-        return this.docenteModel.findOne({ matricula }).exec();
+        return this.docenteModel.findOne({ matricula })
+        .populate('usuario')
+        .exec();
     }
 
     async crearDocente(docente: CrearDocenteDTO): Promise<Docente> {
