@@ -2,6 +2,7 @@ import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from "mongoose";
 import { Usuario } from './usuario.schema';
 import { Carrera } from './carrera.schema';
+import { Calificacion } from './calificacion.schema';
 
 
 export type estudianteDocument = HydratedDocument<Estudiante>;
@@ -25,6 +26,9 @@ export class Estudiante {
     
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'})
     usuario: Usuario
+
+    @Prop([{ type: mongoose.Schema.Types.String, ref: 'Calificacion'}])
+    calificaciones: Calificacion
 }
 
 
