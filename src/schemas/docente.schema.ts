@@ -2,6 +2,10 @@ import mongoose, { HydratedDocument } from "mongoose";
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Usuario } from "./usuario.schema";
 
+enum Role {
+    Docente = 'docente'
+}
+
 export type docenteDocument = HydratedDocument<Docente>;
 
 @Schema()
@@ -23,7 +27,6 @@ export class Docente {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' })
     usuario: Usuario
-
 }
 
 export const DocenteShema = SchemaFactory.createForClass(Docente);

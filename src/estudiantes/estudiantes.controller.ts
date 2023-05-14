@@ -1,4 +1,4 @@
-import { Controller, Param, Body, Get, Post, Delete, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Param, Body, Get, Post, Delete, Put, UseGuards } from '@nestjs/common';
 import { EstudiantesService } from './estudiantes.service';
 import { Estudiante } from 'src/schemas/estudiante.schema';
 import { CrearEstudianteDTO } from './dto/crear-estudiante.dto';
@@ -33,7 +33,7 @@ export class EstudiantesController {
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Patch(':matricula')
+    @Put(':matricula')
     updateEstudiante(@Param('matricula') matricula: string, @Body() estudiante: ActualizarEstudianteDTO): Promise<Estudiante> {
         return this.estudiantesService.updateEstudiante(matricula,estudiante);
     }

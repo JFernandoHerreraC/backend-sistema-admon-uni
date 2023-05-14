@@ -20,6 +20,11 @@ export class CalificacionesController {
     getCalificacion(@Param('id') id: string): Promise<Calificacion> {
         return this.calificacionService.getCalificacion(id);
     }
+    @UseGuards(AuthGuard('jwt'))
+    @Get('matricula/:matricula')
+    getCalificacionPorMatricula(@Param('matricula') matricula: string): Promise<Calificacion[]> {
+        return this.calificacionService.getCalificacionByMatricula(matricula);
+    }
 
     @UseGuards(AuthGuard('jwt'))
     @Post()

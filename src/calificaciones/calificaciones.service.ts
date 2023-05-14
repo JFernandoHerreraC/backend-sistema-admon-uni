@@ -30,6 +30,14 @@ export class CalificacionesService {
         .populate('materia estudiante docente')
         .exec();
     }
+    async getCalificacionByMatricula(matricula: string): Promise<Calificacion[]> {
+        const estudiante = await  this.estudianteModel.findOne({matricula: matricula});
+        const idEstudiante = estudiante._id;
+        const calificaciones = await this.calificacionModel.find({ estudiante: idEstudiante })
+        .populate('materia estudiante docente')
+        .exec();
+        return calificaciones;
+    }
 
     async crearCalificacion(calificacion: CrearCalificacionDTO): Promise<any> {
         calificacion.estado = calificacion.calificacion >= 6 ? 'Aprobado' : 'Reprobado';
