@@ -51,9 +51,9 @@ export class MateriasService {
     }
     
     async deleteMateria(matricula: string): Promise<any> {
-         const materiaEncontrado = await this.materiaModel.findById({ _id: matricula }).exec();
+         const materiaEncontrado = await this.materiaModel.findOne({ matricula }).exec();
+         console.log(materiaEncontrado);
         if (!materiaEncontrado) throw new NotFoundException('Materia no encontrda');
-        const id = (await materiaEncontrado)._id;
-        await this.materiaModel.findByIdAndRemove({ id }).exec();
+        await this.materiaModel.findOneAndDelete({matricula}).exec();
     }
 }
