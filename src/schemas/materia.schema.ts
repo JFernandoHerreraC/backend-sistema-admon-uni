@@ -25,7 +25,7 @@ export class Materia {
     @Prop({ required: true })
     fecha_finalizacion: Date
 
-    @Prop({ type: mongoose.Schema.Types.String, ref: 'Carrera' })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Carrera' })
     carrera: Carrera
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Estudiante' }])

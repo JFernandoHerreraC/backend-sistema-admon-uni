@@ -25,7 +25,7 @@ export class MateriasService {
 
     async getMateria(matricula: string): Promise<Materia> {
         return this.materiaModel.findOne({ matricula })
-            .populate('docente estudiantes carrera')
+            .populate('docente carrera estudiantes')
             .exec();
     }
 
