@@ -24,7 +24,6 @@ export class EstudiantesService {
 
     async getEstudiantes(): Promise<Estudiante[]> {
         return await this.estudianteModel.find()
-        .select('matricula nombre apaterno amaterno carrera')
         .populate('carrera')
         .exec();
     }

@@ -18,6 +18,24 @@ export class Estudiante {
     @Prop()
     amaterno: string
 
+    @Prop({ required: true })
+    calle: string
+    
+    @Prop({ required: true })
+    numero_exterior: string
+
+    @Prop()
+    numero_interior: string
+
+    @Prop({ required: true })
+    poblacion: string
+
+    @Prop({ required: true })
+    cp: string
+
+    @Prop({ required: true })
+    es_inscripto: boolean
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Carrera' })
     carrera: Carrera
 
