@@ -11,7 +11,7 @@ import { Mode } from 'fs';
 export class MateriasService {
     constructor(
         @InjectModel(Materia.name) private materiaModel: Model<Materia>,
-        @InjectModel (Carrera.name) private carreraModel: Model<Carrera>,
+        @InjectModel(Carrera.name) private carreraModel: Model<Carrera>,
     ) { }
 
     crearMatricula(): string {
@@ -33,7 +33,7 @@ export class MateriasService {
         const matricula = this.crearMatricula();
         materia.matricula = matricula;
         const nombreCarrera = materia.carrera;
-        const carrera = await this.carreraModel.findOne({nombre: nombreCarrera});
+        const carrera = await this.carreraModel.findOne({ nombre: nombreCarrera });
         materia.carrera = carrera;
         const nuevaMateria = new this.materiaModel(materia);
         const materiaGuardada = await nuevaMateria.save();
@@ -41,19 +41,19 @@ export class MateriasService {
     }
 
     async updateMateria(matricula: string, materia: ActualizarMateriaDTO): Promise<any> {
-        const materiaEncontrada = await this.materiaModel.findOne({matricula}).exec();
+        const materiaEncontrada = await this.materiaModel.findOne({ matricula: matricula }).exec();
         if (!materiaEncontrada) throw new NotFoundException('Materia no encontrda');
         const nombreCarrera = materia.carrera;
-        const carrera = await this.carreraModel.findOne({nombre: nombreCarrera});
+        const carrera = await this.carreraModel.findOne({ nombre: nombreCarrera });
         materia.carrera = carrera;
         const id = materiaEncontrada._id;
-       return await this.materiaModel.findByIdAndUpdate({_id: id}, materia, {new: true}).exec();
+        return await this.materiaModel.findByIdAndUpdate({ _id: id }, materia, { new: true }).exec();
     }
-    
+
     async deleteMateria(matricula: string): Promise<any> {
-         const materiaEncontrado = await this.materiaModel.findOne({ matricula }).exec();
-         console.log(materiaEncontrado);
+        const materiaEncontrado = await this.materiaModel.findOne({ matricula }).exec();
+        console.log(materiaEncontrado);
         if (!materiaEncontrado) throw new NotFoundException('Materia no encontrda');
-        await this.materiaModel.findOneAndDelete({matricula}).exec();
+        await this.materiaModel.findOneAndDelete({ matricula }).exec();
     }
 }
